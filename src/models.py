@@ -19,12 +19,10 @@ class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(50), nullable=False,)
     last_name: Mapped[str] = mapped_column(String(50), nullable=False)
-    email: Mapped[str] = mapped_column(
-        String(120), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
 
     posts: Mapped[List["Post"]] = relationship("Post", back_populates="author")
-    comments: Mapped[List["Comment"]] = relationship(
-        "Comment", back_populates="author")
+    comments: Mapped[List["Comment"]] = relationship("Comment", back_populates="author")
 
     followers = relationship(
         "User",
@@ -70,7 +68,6 @@ class Comment(db.Model):
     __tablename__ = "comment"
     id: Mapped[int] = mapped_column(primary_key=True)
     comment_text: Mapped[str] = mapped_column(String(250), nullable=False)
-    author_id: Mapped[int] = mapped_column(
-        ForeignKey("user.id"), nullable=False)
+    author_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     post_id: Mapped[int] = mapped_column(ForeignKey("post.id"), nullable=False)
     author: Mapped["User"] = relationship("User", back_populates="comments")
